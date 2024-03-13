@@ -136,11 +136,16 @@ class Map:
 			brightness = 0.5 + continental_ridge * 0.5
 			color = Color(0.24, 0.28, 0.97)
 		else:
-			continental_height = (continentalness - 0.4) / 0.6
-			height = continental_height * 0.6 + (peak * pow(continental_height, 0.3) * 0.4)
-			brightness = 0.75 + height * 0.4
-			biome = Biome.at(temperature, humidity)
-			color = biome.color()
+			riverness = (temperature + humidity + peak * 0.25) % 0.4
+			if (riverness < 0.01) or (0.39 <= riverness):
+				color = Color(0.30, 0.34, 0.98)
+				brightness = 1.0
+			else:
+				continental_height = (continentalness - 0.4) / 0.6
+				height = continental_height * 0.6 + (peak * pow(continental_height, 0.3) * 0.4)
+				brightness = 0.75 + height * 0.4
+				biome = Biome.at(temperature, humidity)
+				color = biome.color()
 
 		color *= brightness
 		return color
